@@ -13,13 +13,11 @@ public class Day01Processor {
     public Integer partTwo(List<String> input) {
         Set<Integer> intSet = Sets.newHashSet(0);
         int agg = 0;
-        int i = 0;
 
-        while (true) {
-            agg += Integer.valueOf(input.get(i % input.size()));
+        for (int i = 0; true; i = (i + 1) % input.size()){
+            agg += Integer.valueOf(input.get(i));
             if (intSet.contains(agg)) { return agg; }
             intSet.add(agg);
-            i++;
         }
     }
 }
