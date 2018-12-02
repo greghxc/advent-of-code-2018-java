@@ -22,7 +22,7 @@ public class Day02Processor {
 
     public String partTwo(List<String> input) {
         for (int i = 0; i < input.size(); i++) {
-            for (int j = i; j < input.size(); j++) {
+            for (int j = i + 1; j < input.size() - 1; j++) {
                 String sameLetters = sameLetters(input.get(i), input.get(j));
                 if (sameLetters.length() == input.get(i).length() - 1) { return sameLetters; }
             }
