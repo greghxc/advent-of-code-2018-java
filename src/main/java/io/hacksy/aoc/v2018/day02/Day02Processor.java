@@ -14,7 +14,7 @@ public class Day02Processor {
                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())))
                 .map(m -> new HashSet<>(m.values()))
                 .map(ArrayList::new)
-                .reduce(new ArrayList<>(), (a, b) -> { a.addAll(b); return a; }).stream()
+                .flatMap(List::stream)
                 .filter(l -> l == 2L || l == 3L)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .values().stream()
