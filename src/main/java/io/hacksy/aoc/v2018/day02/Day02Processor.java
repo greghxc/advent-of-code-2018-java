@@ -12,13 +12,12 @@ public class Day02Processor {
         return input.stream()
                 .map(str -> Lists.charactersOf(str).stream()
                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())))
-                .map(c -> c.values().stream()
-                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())))
-                .map(Map::keySet)
+                .map(m -> new HashSet<>(m.values()))
                 .map(ArrayList::new)
-                .reduce(Lists.newArrayList(), (a, b) -> { a.addAll(b); return a; }).stream()
+                .reduce(new ArrayList<>(), (a, b) -> { a.addAll(b); return a; }).stream()
                 .filter(l -> l == 2L || l == 3L)
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).values().stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .values().stream()
                 .reduce(1L, (a, b) -> a * b);
     }
 
