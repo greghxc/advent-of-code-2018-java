@@ -16,7 +16,9 @@ public class Day01Processor {
 
         for (int i = 0; true; i = (i + 1) % input.size()){
             agg += Integer.valueOf(input.get(i));
-            if (intSet.contains(agg)) { return agg; }
+            if (intSet.contains(agg)) {
+                return agg;
+            }
             intSet.add(agg);
         }
     }
