@@ -21,7 +21,7 @@ public class Day03ProcessorTest {
     public void partTwo() {
         assertThat(
                 processor.partTwo(FileUtil.fileToStringList(testFile)),
-                is("Day03Processor.FabricClaim(id=3, leftMargin=5, topMargin=5, width=2, height=2)")
+                is("FabricClaim(id=3, leftMargin=5, topMargin=5, width=2, height=2)")
         );
     }
 }

@@ -5,6 +5,8 @@ import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
 
+// Day one was fast! I'd mostly set up my project ahead of time, so part one was really just reading the story
+// and pasting in the input. Part two took minimally longer.
 public class Day01Processor {
     public Integer partOne(List<String> input) {
         return input.stream().mapToInt(Integer::valueOf).sum();

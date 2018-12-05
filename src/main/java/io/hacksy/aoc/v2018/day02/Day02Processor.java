@@ -7,6 +7,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+// Day 02! This one got delayed by going out to see the Nutcracker. Part one seemed like something I could accomplish
+// using only the streams API, so I stuck with that, readablity by damned. Part two worked fine.
 public class Day02Processor {
     public Long partOne(List<String> input) {
         return input.stream()
