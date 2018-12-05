@@ -8,9 +8,9 @@ import java.io.File;
 
 public class Day05App {
     public static void main( String[] args ) {
-        File file = FileUtil.getResourceFile("input/day04/input.txt");
+        File file = FileUtil.getResourceFile("input/day05/input.txt");
 
-        Day04Processor processor = new Day04Processor();
+        Day05Processor processor = new Day05Processor();
 
         Performance.timeAndPrint(() ->
                 String.format("Day 5 - Part 1: %s", processor.partOne(FileUtil.fileToStringList(file))));

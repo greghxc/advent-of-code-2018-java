@@ -14,11 +14,11 @@ public class Day05ProcessorTest {
 
     @Test
     public void partOne() {
-        assertThat(processor.partOne(FileUtil.fileToStringList(file)), is("blah"));
+        assertThat(processor.partOne(FileUtil.fileToStringList(file)), is("10"));
     }
 
     @Test
     public void partTwo() {
-        assertThat(processor.partTwo(FileUtil.fileToStringList(file)), is("blah"));
+        assertThat(processor.partTwo(FileUtil.fileToStringList(file)), is("4"));
     }
 }
