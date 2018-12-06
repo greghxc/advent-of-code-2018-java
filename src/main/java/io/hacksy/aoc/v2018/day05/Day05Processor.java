@@ -3,9 +3,12 @@ package io.hacksy.aoc.v2018.day05;
 import com.google.common.collect.Lists;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Day05Processor {
+    Pattern pattern = Pattern.compile(allCombos().stream().collect(Collectors.joining("|")));
+
     String partOne(List<String> input) {
         return String.valueOf(react(input.get(0)).length());
     }
@@ -17,7 +20,7 @@ public class Day05Processor {
                 .map(letter -> {
                     return Lists.charactersOf(inputString).stream()
                             .filter(c -> {
-                                return c != Character.valueOf(letter.charAt(0)) && c != Character.valueOf(letter.toUpperCase().charAt(0));
+                                return !String.valueOf(c).toLowerCase().equals(letter);
                             })
                             .map(String::valueOf)
                             .collect(Collectors.joining());
@@ -33,29 +36,10 @@ public class Day05Processor {
 
         while (remaining.length() != newestResult.length()) {
             remaining = newestResult;
-            newestResult = cleanUpString(remaining);
+            newestResult = pattern.matcher(input).replaceAll("");
         }
 
         return newestResult;
-    }
-
-    private String cleanUpString(String input) {
-        StringBuilder remainingString = new StringBuilder();
-        Set<String> pairs = allCombos();
-        char[] charArray = input.toCharArray();
-        for (int i = 0; i < charArray.length; i++) {
-            if (i == charArray.length - 1) {
-                remainingString.append(charArray[i]);
-            } else {
-                String pair = new String(new char[] {charArray[i], charArray[i+1]});
-                if (pairs.contains(pair)) {
-                    i++;
-                } else {
-                    remainingString.append(charArray[i]);
-                }
-            }
-        }
-        return remainingString.toString();
     }
 
     private Set<String> allCombos() {
