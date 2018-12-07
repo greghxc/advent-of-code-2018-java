@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+// SO. MUCH. TYPING.
 public class Day04Processor {
     final Pattern pattern = Pattern.compile("\\[\\d+-\\d+-\\d+ (\\d+):(\\d+)\\] ?(Guard #(\\d+))? ([a-z ]+)");
 

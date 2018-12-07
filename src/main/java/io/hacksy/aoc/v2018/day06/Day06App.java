@@ -1,6 +1,5 @@
 package io.hacksy.aoc.v2018.day06;
 
-import io.hacksy.aoc.v2018.day05.Day05Processor;
 import io.hacksy.aoc.v2018.util.FileUtil;
 import io.hacksy.aoc.v2018.util.Performance;
 
