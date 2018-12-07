@@ -1,13 +1,9 @@
 package io.hacksy.aoc.v2018.day03;
 
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Day03Processor {
@@ -65,32 +61,7 @@ public class Day03Processor {
         return coords;
     }
 
-    private class FabricClaimFactory {
-        private final Pattern PATTERN = Pattern.compile("#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)");
 
-        FabricClaim fabricClaimFrom(String line) {
-            Matcher m = PATTERN.matcher(line);
 
-            if (m.find()) {
-                return new FabricClaim(
-                        Integer.valueOf(m.group(1)),
-                        Integer.valueOf(m.group(2)),
-                        Integer.valueOf(m.group(3)),
-                        Integer.valueOf(m.group(4)),
-                        Integer.valueOf(m.group(5))
-                );
-            } else {
-                throw new IllegalArgumentException(String.format("Cannot create FabricClaim: %s", line));
-            }
-        }
-    }
 
-    @Data
-    private class FabricClaim {
-        private final int id;
-        private final int leftMargin;
-        private final int topMargin;
-        private final int width;
-        private final int height;
-    }
 }
