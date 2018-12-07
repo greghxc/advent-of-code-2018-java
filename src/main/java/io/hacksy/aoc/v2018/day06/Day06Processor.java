@@ -1,13 +1,15 @@
 package io.hacksy.aoc.v2018.day06;
 
 import com.google.common.collect.Lists;
-import lombok.Data;
+import io.hacksy.aoc.v2018.util.Coordinate;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static io.hacksy.aoc.v2018.util.Coordinate.manhattanDistance;
 
 public class Day06Processor {
     private Pattern inputPattern = Pattern.compile("(\\d+), (\\d+)");
@@ -24,10 +26,10 @@ public class Day06Processor {
                 if (nearestInputCoordByGridCoord.get(g).size() == 0) {
                     nearestInputCoordByGridCoord.put(g, Lists.newArrayList(c));//
                 // if the claimed one is further away than me, claim it for me!
-                } else if (distance(g, nearestInputCoordByGridCoord.get(g).get(0)) > distance(g, c)) {
+                } else if (manhattanDistance(g, nearestInputCoordByGridCoord.get(g).get(0)) > manhattanDistance(g, c)) {
                     nearestInputCoordByGridCoord.put(g, Lists.newArrayList(c));
                 // if we're the SAME distance, add me to the list!
-                } else if (distance(g, nearestInputCoordByGridCoord.get(g).get(0)).equals(distance(g, c))) {
+                } else if (manhattanDistance(g, nearestInputCoordByGridCoord.get(g).get(0)) == (manhattanDistance(g, c))) {
                     nearestInputCoordByGridCoord.get(g).add(c);
                 }
             });
@@ -47,15 +49,11 @@ public class Day06Processor {
         Set<Coordinate> grid = gridCoordinatesContaining(coordinates);
 
         long count = grid.stream()
-                .mapToInt(g -> coordinates.stream().mapToInt(c -> distance(g, c)).sum())
+                .mapToInt(g -> coordinates.stream().mapToInt(c -> manhattanDistance(g, c)).sum())
                 .filter(s -> s < maxDistance)
                 .count();
 
         return Long.toString(count);
-    }
-
-    private Integer distance(Coordinate a, Coordinate b) {
-        return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
     }
 
     private Coordinate coordinateFrom(String line) {
@@ -86,11 +84,5 @@ public class Day06Processor {
         }
 
         return grid;
-    }
-
-    @Data
-    private class Coordinate {
-        private final Integer x;
-        private final Integer y;
     }
 }
