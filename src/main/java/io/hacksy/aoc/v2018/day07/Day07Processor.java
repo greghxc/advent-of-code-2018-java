@@ -1,11 +1,13 @@
 package io.hacksy.aoc.v2018.day07;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Data;
 
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -102,16 +104,16 @@ public class Day07Processor {
     class Instruction {
         final CountDownLatch countDownLatch;
         final String name;
-        Set<Function<Collection<Instruction>, Boolean>> preconditions = Sets.newHashSet(i -> true);
+        Collection<Predicate<Collection<Instruction>>> preconditions = new ArrayList<>();
 
         Boolean isReady(Collection<Instruction> competedInstructions) {
              return preconditions.stream()
-                     .map(f -> f.apply(competedInstructions))
-                     .allMatch(b -> b.equals(true));
+                     .map(f -> f.test(competedInstructions))
+                     .noneMatch(b -> b.equals(false));
         }
 
         void addRequirement(String instructionName) {
-            Function<Collection<Instruction>, Boolean> precondition = (completedInstructions) ->
+            Predicate<Collection<Instruction>> precondition = (completedInstructions) ->
                     completedInstructions.stream()
                             .map(Instruction::getName)
                             .anyMatch(s -> s.equals(instructionName));
