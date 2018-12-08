@@ -1,12 +1,9 @@
 package io.hacksy.aoc.v2018.day07;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.Data;
 
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
