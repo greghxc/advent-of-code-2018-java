@@ -9,7 +9,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class Day08ProcessorTest {
-    private File file = FileUtil.getResourceFile("input/day08/input.txt");
+    private File file = FileUtil.getResourceFile("input/day08/input2.txt");
 
     private Day08Processor processor = new Day08Processor();
 
@@ -21,5 +21,6 @@ public class Day08ProcessorTest {
 
     @Test
     public void partTwo() {
+        assertThat(processor.partTwo(FileUtil.fileToStringList(file)), is("66"));
     }
 }

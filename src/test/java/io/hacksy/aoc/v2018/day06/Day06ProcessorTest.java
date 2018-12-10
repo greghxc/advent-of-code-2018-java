@@ -18,6 +18,11 @@ public class Day06ProcessorTest {
     }
 
     @Test
+    public void partOneO() {
+        assertThat(processor.partOneOriginal(FileUtil.fileToStringList(file)), is("17"));
+    }
+
+    @Test
     public void partTwo() {
         assertThat(processor.partTwo(FileUtil.fileToStringList(file), 32), is("16"));
     }

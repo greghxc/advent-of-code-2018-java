@@ -18,6 +18,25 @@ public class Day06Processor {
         List<Coordinate> inputCoordinates = parseCoordinates(input);
         Set<Coordinate> gridCoordinates = gridCoordinatesContaining(inputCoordinates);
 
+        Map<Coordinate, List<Coordinate>> gridCoordsByInputCoord = gridCoordinates.stream()
+                .map(gridCoordinate -> inputCoordinates.stream()
+                            .collect(Collectors.groupingBy(i -> manhattanDistance(i, gridCoordinate))))
+                .map(m -> m.entrySet().stream()
+                        .min(Comparator.comparingInt(Map.Entry::getKey))
+                        .filter(e -> e.getValue().size() == 1)
+                        .map(e -> e.getValue().get(0))
+                        .orElse(null)
+                ).filter(Objects::nonNull)
+                .collect(Collectors.groupingBy(Function.identity()));
+
+        return Integer.toString(gridCoordsByInputCoord.entrySet().stream()
+                .max(Comparator.comparingInt(e -> Math.toIntExact(e.getValue().size()))).get().getValue().size());
+    }
+
+    String partOneOriginal(List<String> input) {
+        List<Coordinate> inputCoordinates = parseCoordinates(input);
+        Set<Coordinate> gridCoordinates = gridCoordinatesContaining(inputCoordinates);
+
         Map<Coordinate, List<Coordinate>> nearestInputCoordByGridCoord = new HashMap<>();
         gridCoordinates.forEach(g -> {
             nearestInputCoordByGridCoord.put(g, new ArrayList<>());
@@ -25,10 +44,10 @@ public class Day06Processor {
                 // if no one has claimed it, claim it
                 if (nearestInputCoordByGridCoord.get(g).size() == 0) {
                     nearestInputCoordByGridCoord.put(g, Lists.newArrayList(c));//
-                // if the claimed one is further away than me, claim it for me!
+                    // if the claimed one is further away than me, claim it for me!
                 } else if (manhattanDistance(g, nearestInputCoordByGridCoord.get(g).get(0)) > manhattanDistance(g, c)) {
                     nearestInputCoordByGridCoord.put(g, Lists.newArrayList(c));
-                // if we're the SAME distance, add me to the list!
+                    // if we're the SAME distance, add me to the list!
                 } else if (manhattanDistance(g, nearestInputCoordByGridCoord.get(g).get(0)) == (manhattanDistance(g, c))) {
                     nearestInputCoordByGridCoord.get(g).add(c);
                 }
@@ -42,7 +61,7 @@ public class Day06Processor {
 
         return Integer.toString(gridCoordsByInputCoord.entrySet().stream()
                 .max(Comparator.comparingInt(e -> Math.toIntExact(e.getValue().size()))).get().getValue().size());
-        }
+    }
 
     String partTwo(List<String> input, int maxDistance) {
         List<Coordinate> coordinates = parseCoordinates(input);
