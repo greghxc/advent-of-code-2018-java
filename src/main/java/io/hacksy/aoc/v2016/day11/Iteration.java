@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class Iteration {
-    private final List<List<ComposedComponent>> floors;
+    private final List<List<Component>> floors;
     private final int elevatorIndex;
     private final long iterationNumber;
 }

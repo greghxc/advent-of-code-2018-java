@@ -2,22 +2,25 @@ package io.hacksy.aoc.v2016.day11;
 
 import org.junit.Test;
 
-import static io.hacksy.aoc.v2016.day11.ComposedComponent.Element.*;
-import static io.hacksy.aoc.v2016.day11.ComposedComponent.Type.*;
-import static java.util.Arrays.asList;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
 public class BuildingValidatorTest {
     @Test
     public void validate05() {
-        List<List<ComposedComponent>> floors = asList(
-                asList(new ComposedComponent(H, M)),
-                asList(new ComposedComponent(H, M), new ComposedComponent(L, G), new ComposedComponent(H, G)),
-                asList(new ComposedComponent(H, M), new ComposedComponent(H, G))
+        List<String> input = List.of(
+                "The first floor contains a hydrogen-compatible microchip and a lithium-compatible microchip.",
+                "The second floor contains a hydrogen generator.",
+                "The third floor contains a lithium generator.",
+                "The fourth floor contains nothing relevant."
         );
-        assertTrue(BuildingValidator.validate2(floors));
+
+        List<List<Component>> floors = input.stream()
+                .map(ComponentParser::parse)
+                .collect(Collectors.toList());
+
+        assertTrue(BuildingValidator.validate(floors));
     }
 }

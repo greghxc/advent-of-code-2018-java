@@ -4,7 +4,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Day11Processor {
-    public Integer part01(List<List<ComposedComponent>> floors) {
+    public Integer partOne(List<String> input) {
+        List<List<Component>> floors = input.stream()
+                .map(ComponentParser::parse)
+                .collect(Collectors.toList());
+
         ArrayDeque<Iteration> queue = new ArrayDeque<>();
         queue.push(new Iteration(floors, 0, 0));
 
@@ -13,7 +17,7 @@ public class Day11Processor {
         while (!queue.isEmpty()) {
             Iteration currentIt = queue.pop();
             List<Iteration> iterations = FloorsCombinator.getPossibleNextFloors(currentIt).stream()
-                    .filter(i -> BuildingValidator.validate2(i.getFloors()))
+                    .filter(i -> BuildingValidator.validate(i.getFloors()))
                     .collect(Collectors.toList());
 
             for (Iteration iteration : iterations) {
@@ -30,7 +34,7 @@ public class Day11Processor {
 
     private Iteration cleanIteration(Iteration iteration) {
         return new Iteration(
-                iteration.getFloors().stream().map(f -> f.stream().sorted(Comparator.comparingInt(ComposedComponent::hashCode)).collect(Collectors.toList())).collect(Collectors.toList()),
+                iteration.getFloors().stream().map(f -> f.stream().sorted(Comparator.comparingInt(Component::hashCode)).collect(Collectors.toList())).collect(Collectors.toList()),
                 iteration.getElevatorIndex(),
                 0
         );

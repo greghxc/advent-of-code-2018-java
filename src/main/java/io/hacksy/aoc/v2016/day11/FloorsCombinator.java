@@ -11,8 +11,8 @@ import static java.util.Arrays.asList;
 
 public class FloorsCombinator {
     static List<Iteration> getPossibleNextFloors(Iteration iteration) {
-        List<List<ComposedComponent>> possibleCombinations = new ArrayList<>();
-        List<ComposedComponent> currentFloor = iteration.getFloors().get(iteration.getElevatorIndex());
+        List<List<Component>> possibleCombinations = new ArrayList<>();
+        List<Component> currentFloor = iteration.getFloors().get(iteration.getElevatorIndex());
 
         possibleCombinations.addAll(currentFloor.stream().map(Collections::singletonList).collect(Collectors.toList()));
 
@@ -24,7 +24,7 @@ public class FloorsCombinator {
 
         List<Iteration> iterations = new ArrayList<>();
 
-        for (List<ComposedComponent> combination : possibleCombinations) {
+        for (List<Component> combination : possibleCombinations) {
             if (iteration.getElevatorIndex() < iteration.getFloors().size() - 1) {
                 iterations.add(
                         new Iteration(
@@ -49,16 +49,14 @@ public class FloorsCombinator {
         return iterations;
     }
 
-    private static List<List<ComposedComponent>> moveItems(int position, int movement, List<ComposedComponent> components, List<List<ComposedComponent>> origList) {
+    private static List<List<Component>> moveItems(int position, int movement, List<Component> components, List<List<Component>> origList) {
         return IntStream.range(0, origList.size())
                 .mapToObj(fIndex -> {
                     if (fIndex == position + movement) {
                         return Stream.concat(origList.get(fIndex).stream(), components.stream()).collect(Collectors.toList());
                     }
                     if (fIndex == position) {
-                        List<ComposedComponent> newList = new ArrayList<>(origList.get(fIndex));
-                        newList.removeAll(components);
-                        return newList;
+                        return origList.get(fIndex).stream().filter(c -> !components.contains(c)).collect(Collectors.toList());
                     }
                     return origList.get(fIndex);
                 })
