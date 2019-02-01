@@ -1,8 +1,6 @@
 package io.hacksy.aoc.v2016.day11;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -10,9 +8,11 @@ import java.util.stream.Stream;
 import static java.util.Arrays.asList;
 
 public class FloorsCombinator {
+    // get all "physically" possible next moves by moving every possible combination up and down a floor if there is one.
     static List<Iteration> getPossibleNextFloors(Iteration iteration) {
         List<List<Component>> possibleCombinations = new ArrayList<>();
-        List<Component> currentFloor = iteration.getFloors().get(iteration.getElevatorIndex());
+        Set<Component> currentFloorSet = iteration.getFloors().get(iteration.getElevatorIndex());
+        List<Component> currentFloor = new ArrayList<>(currentFloorSet);
 
         possibleCombinations.addAll(currentFloor.stream().map(Collections::singletonList).collect(Collectors.toList()));
 
@@ -26,40 +26,36 @@ public class FloorsCombinator {
 
         for (List<Component> combination : possibleCombinations) {
             if (iteration.getElevatorIndex() < iteration.getFloors().size() - 1) {
-                iterations.add(
-                        new Iteration(
-                                moveItems(iteration.getElevatorIndex(), 1, combination, iteration.getFloors()),
-                                iteration.getElevatorIndex() + 1,
-                                iteration.getIterationNumber() + 1
-                        )
-                );
+                iterations.add(moveItems(1, new HashSet<>(combination), iteration));
             }
 
             if (iteration.getElevatorIndex() > 0) {
-                iterations.add(
-                        new Iteration(
-                                moveItems(iteration.getElevatorIndex(), -1, combination, iteration.getFloors()),
-                                iteration.getElevatorIndex() - 1,
-                                iteration.getIterationNumber() + 1
-                        )
-                );
+                iterations.add(moveItems(-1, new HashSet<>(combination), iteration));
             }
         }
 
         return iterations;
     }
 
-    private static List<List<Component>> moveItems(int position, int movement, List<Component> components, List<List<Component>> origList) {
-        return IntStream.range(0, origList.size())
+    private static Iteration moveItems(int movement, Set<Component> componentsToMove, Iteration iteration) {
+        var origList = iteration.getFloors();
+        var position = iteration.getElevatorIndex();
+        var floors = IntStream.range(0, origList.size())
                 .mapToObj(fIndex -> {
                     if (fIndex == position + movement) {
-                        return Stream.concat(origList.get(fIndex).stream(), components.stream()).collect(Collectors.toList());
+                        return Stream.concat(origList.get(fIndex).stream(), componentsToMove.stream()).collect(Collectors.toSet());
                     }
                     if (fIndex == position) {
-                        return origList.get(fIndex).stream().filter(c -> !components.contains(c)).collect(Collectors.toList());
+                        return origList.get(fIndex).stream().filter(c -> !componentsToMove.contains(c)).collect(Collectors.toSet());
                     }
                     return origList.get(fIndex);
                 })
                 .collect(Collectors.toList());
+
+        return new Iteration(
+                floors,
+                iteration.getElevatorIndex() + movement,
+                iteration.getIterationNumber() + 1
+        );
     }
 }

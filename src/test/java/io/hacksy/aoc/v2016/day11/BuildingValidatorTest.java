@@ -3,6 +3,7 @@ package io.hacksy.aoc.v2016.day11;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -17,7 +18,7 @@ public class BuildingValidatorTest {
                 "The fourth floor contains nothing relevant."
         );
 
-        List<List<Component>> floors = input.stream()
+        List<Set<Component>> floors = input.stream()
                 .map(ComponentParser::parse)
                 .collect(Collectors.toList());
 
