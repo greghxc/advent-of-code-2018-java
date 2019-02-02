@@ -13,7 +13,7 @@ public class BuildingValidator {
         var chips = c.stream().filter(component -> component.getType() == Component.Type.MICROCHIP).collect(Collectors.toList());
         var generators = c.stream().filter(component -> component.getType() == Component.Type.GENERATOR).collect(Collectors.toList());
 
-        // return true there are any chips if there are generators on the floor, but not MATCHING generators.
+        // return true if there are any chips that do not have a matching generator IF there are non-matching generators on the same floor
         return chips.stream().map(chip -> !generators.contains(new Component(chip.getElement(), GENERATOR)) && generators.size() > 0).filter(b -> b).findFirst().isEmpty();
     };
 
